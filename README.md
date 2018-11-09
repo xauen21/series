@@ -1,9 +1,9 @@
 # series: Python extension for Kodi
 
 ## Fuctionality:
-### Track your peding episodes
-### Download torrents
-### Sincronize subtitles
+* Track your peding episodes
+* Download torrents
+* Sincronize subtitles
 
-## Installation procedure
+## Installation procedure:
 TODO
