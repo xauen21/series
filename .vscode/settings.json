@@ -3,12 +3,13 @@
 	"python.unitTest.unittestArgs": [
 		"-v",
 		"-s",
-		".",
+		"./tests",
 		"-p",
 		"*_tests.py"
 	],
-	"python.unitTest.pyTestEnabled": true,
-	"python.unitTest.nosetestsEnabled": false,
 	"python.unitTest.unittestEnabled": true,
-	"python.linting.pylintEnabled": true
+	"python.unitTest.pyTestEnabled": false,
+	"python.unitTest.nosetestsEnabled": false,
+	"python.linting.pylintEnabled": false,
+	"python.unitTest.promptToConfigure": false
 }
