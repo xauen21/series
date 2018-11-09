@@ -14,9 +14,7 @@ class TestInfo(unittest.TestCase):
 			return [Episode(2, 1), Episode(2, 2)], Info.found
 		if (name == "name in imdb" and season == 3):
 			return None, Info.notFound
-		if (name == "name in imdb" and season == 4):
-			return None, Info.connectionError
-		else: return None, Info.notFound
+		else: return None, Info.connectionError
 	
 	def setUp(self):
 		Info.searchEpisodesBySeason = TestInfo.searchEpisodesBySeason

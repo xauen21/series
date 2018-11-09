@@ -15,12 +15,10 @@ class Imdb:
 		
 		parameters = (('apikey', Imdb.apikey), ('t', name), ('Season', season))
 		response = requests.get(Imdb.url, params = parameters)
-		if response.status_code != 200:
-			return None, Info.connectionError
+		if response.status_code != 200: return None, Info.connectionError
 		
 		information = response.json()
-		if information["Response"] == "False":
-			return None, Info.notFound
+		if information["Response"] == "False": return None, Info.notFound
 		
 		for episodeJson in information["Episodes"]:
 			episode = Episode(season, int(episodeJson["Episode"]))

@@ -30,8 +30,8 @@ class Info:
 			else: names = serie.names
 			
 			for name in names:
-				episodes, message = Info.searchEpisodesBySeason(plugin_module, plugin_class, name, season)
-				if verbose: print("[serie = " + name + "] [season = " + str(season) + "] [plugin = " + plugin_module + "] " + message)
+				episodes, code = Info.searchEpisodesBySeason(plugin_module, plugin_class, name, season)
+				if verbose: print("[serie = " + name + "] [season = " + str(season) + "] [plugin = " + plugin_module + "] " + code)
 				serie.addEpisode(episodes)
 				if not episodes: continue
 				
