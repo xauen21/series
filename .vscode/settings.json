@@ -1,0 +1,13 @@
+{
+	"python.pythonPath": "C:\\Users\\Klaudia\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe",
+	"python.unitTest.unittestArgs": [
+		"-v",
+		"-s",
+		".",
+		"-p",
+		"*ut.py"
+	],
+	"python.unitTest.pyTestEnabled": true,
+	"python.unitTest.nosetestsEnabled": false,
+	"python.unitTest.unittestEnabled": true
+}
