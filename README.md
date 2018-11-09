@@ -1,4 +1,4 @@
-# series: Python extension for Kodi
+# Series: Python extension for Kodi
 
 ## Fuctionality:
 * Track your peding episodes
