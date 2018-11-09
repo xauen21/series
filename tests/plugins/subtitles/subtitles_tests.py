@@ -33,7 +33,7 @@ class TestSubtitles(unittest.TestCase):
 	def test_downloadEpisode(self):
 		episode = Episode(1, 1)
 		episode.__dict__.update({"subdivx" : "http://www.subdivx.com/bajar.php?id=194981&u=5"})
-		subtitle_file = Subtitles.download(episode, save = False)
+		subtitle_file = Subtitles.download(episode)
 		self.assertTrue(os.path.isfile(subtitle_file))
 		os.remove(subtitle_file)
 

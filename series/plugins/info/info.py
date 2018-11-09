@@ -36,7 +36,7 @@ class Info:
 				if not episodes: continue
 				
 				serie.__dict__[plugin_name] = name
-				Info.updateSerie(serie, season + 1)
+				Info.updateSerie(serie, season + 1, save = save, verbose = verbose)
 				break
 		
 		if save: serie.write()
