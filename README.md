@@ -1,7 +1,7 @@
 # Series: Python extension for Kodi
 
 ## Fuctionality:
-* Track your peding episodes
+* Track your pending episodes
 * Download torrents
 * Sincronize subtitles
 
