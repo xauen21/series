@@ -5,9 +5,10 @@
 		"-s",
 		".",
 		"-p",
-		"*ut.py"
+		"*_tests.py"
 	],
 	"python.unitTest.pyTestEnabled": true,
 	"python.unitTest.nosetestsEnabled": false,
-	"python.unitTest.unittestEnabled": true
+	"python.unitTest.unittestEnabled": true,
+	"python.linting.pylintEnabled": true
 }
