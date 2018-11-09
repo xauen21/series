@@ -42,6 +42,7 @@ class Serie:
 		return jsonpickle.encode(self)
 
 	def write(self):
+		if not os.path.exists(series_path): os.mkdir(series_path)
 		with open(series_path + "/" + self.id + ".json", 'w') as serie_file: serie_file.write(jsonpickle.encode(self))
 	
 	def delete(self):
