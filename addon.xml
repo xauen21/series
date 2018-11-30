@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="plugin.series.tega"
+version="1.0.0"
+name="Series plugin"
+provider-name="tega">
+<requires>
+  <import addon="xbmc.python" version="2.25.0"/>
+  <import addon="script.module.requests" version="2.19.1"/>
+  <import addon="script.module.urllib3" version="1.22"/>
+</requires>
+<extension point="xbmc.python.pluginsource" library="main.py">
+  <provides>video</provides>
+</extension>
+<extension point="xbmc.addon.metadata">
+  <summary lang="en">Series Plugin.</summary>
+  <description lang="en_GB">Series Plugin.</description>
+  <disclaimer lang="en_GB">Series Plugin.</disclaimer>
+  <assets>
+    <icon>icon.png</icon>
+    <fanart>fanart.jpg</fanart>
+    <screenshot>resources\screenshot-01.jpg</screenshot>
+    <screenshot>resources\screenshot-02.jpg</screenshot>
+    <screenshot>resources\screenshot-03.jpg</screenshot>    
+  </assets>
+  <news>Updated with latest artwork metadata</news>
+</extension>
+</addon>
