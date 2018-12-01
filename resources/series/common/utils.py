@@ -80,7 +80,7 @@ class Utils:
 			return None, Code.connectionError
 
 	@staticmethod
-	def unpack(input, output, working_dir):
+	def unpack(input, working_dir, output):
 		subtitle_file = None
 
 		try:
@@ -105,8 +105,11 @@ class Utils:
 		files = os.listdir(working_dir)
 		for srt_file in files:
 			if ".srt" in srt_file:
+				if os.path.isdir(output): output = output + "/" + os.path.basename(srt_file)
+				if os.path.exists(output): os.remove(output)
 				shutil.move(working_dir + "/" + srt_file, output)
 				subtitle_file = output
-
-		if subtitle_file: return True
-		else: return False
+				
+		
+		if subtitle_file: return subtitle_file, True
+		else: return subtitle_file, False

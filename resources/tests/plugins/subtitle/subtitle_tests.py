@@ -32,12 +32,14 @@ class TestSubtitles(unittest.TestCase):
 	def test_searchSubtitle(self):
 		serie = Serie("test_searchSubtitle", ["missing name in test", "name in subdivx"], [Episode(1, 1)])
 		serie = Subtitle.updateSerie(serie)
+		self.assertTrue(serie.episodes[0].__dict__["subtitle"])
 		self.assertEqual(serie.__dict__["Subdivx"], "name in subdivx")
 
 	def test_searchSubtitleNotFound(self):
 		serie = Serie("test_searchSubtitleNotFound", ["missing name in test", "name in subdivx"], [Episode(1, 2)])
 		serie = Subtitle.updateSerie(serie)
 		self.assertFalse("Subdivx" in serie.__dict__)
+		self.assertFalse(serie.episodes[0].__dict__["subtitle"])
 
 	@unittest.SkipTest
 	def test_downloadEpisode(self):

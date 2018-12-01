@@ -27,12 +27,14 @@ class TestTorrent(unittest.TestCase):
 	def test_searchTorrent(self):
 		serie = Serie("test_searchTorrent", ["missing name in test", "name in piratebay"], [Episode(1, 1)])
 		serie = Torrent.updateSerie(serie)
+		self.assertTrue(serie.episodes[0].__dict__["torrent"])
 		self.assertEqual(serie.__dict__["Piratebay"], "name in piratebay")
 
 	def test_searchTorrentNotFound(self):
 		serie = Serie("test_searchTorrentNotFound", ["missing name in test", "name in piratebay"], [Episode(1, 2)])
 		serie = Torrent.updateSerie(serie)
 		self.assertFalse("Piratebay" in serie.__dict__)
+		self.assertFalse(serie.episodes[0].__dict__["torrent"])
 
 	@unittest.SkipTest
 	def test_downloadEpisode(self):

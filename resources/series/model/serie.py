@@ -29,6 +29,7 @@ class Serie:
 		serie_path = Serie._getPath() + "/" + self.id + ".json"
 		if not os.path.exists(Serie._getPath()):
 			Log.debug(serie = self.id, message = serie_path, code = Code.notfound)
+			self.id = None
 			return False
 		with open(serie_path) as serie_file: serie_str = serie_file.read()
 		self.__dict__ = jsonpickle.decode(serie_str).__dict__
@@ -79,7 +80,7 @@ class Serie:
 	def addEpisode(self, newEpisodes):
 		if type(newEpisodes) is Episode: newEpisodes = [newEpisodes]
 		if not type(newEpisodes) is list: return False
-		
+
 		maxEpisode = self.getMaxEpisode()
 		if maxEpisode: newEpisodes = list(filter(lambda episode: maxEpisode < episode, newEpisodes))
 		
@@ -87,7 +88,13 @@ class Serie:
 		if not newEpisodes: return False
 		
 		self.episodes.extend(newEpisodes)
-		return True
+		return 
+		
+	def updateEpisode(self, episode, subtitle = None, torrent = None):
+		pos = self.episodes.index(episode)
+		if subtitle: self.episodes[pos].subtitle = subtitle
+		if torrent: self.episodes[pos].torrent = torrent
+		self.write()
 
 	@staticmethod
 	def getSeries(onlyUnwatcher = True, onlyWitSubtitles = True, onlyWithTorrent = True):

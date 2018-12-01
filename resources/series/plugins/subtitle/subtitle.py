@@ -23,10 +23,10 @@ class Subtitle:
 				else: names = serie.names
 				for name in names:
 					link, code = Subtitle.searchUrl(name, episode, plugin_module, plugin_class)
-					Log.info(serie = name, season = episode.season, episode = episode.episode, plugin = plugin_class, code = code, message = "Searching subtitle.")
+					Log.info(serie = name, season = episode.season, episode = episode.episode, plugin = plugin_class, code = code, message = "Searching subtitle")
 					if not link: continue
 					
-					episode.torrent = True
+					episode.subtitle = True
 					serie.__dict__[plugin_class] = name
 					if save: serie.write()
 					break
@@ -35,35 +35,31 @@ class Subtitle:
 		return serie
 	
 	@staticmethod
-	def download(serie, episode, plugin = ""):
-		for plugin_module, plugin_class in Utils.getPlugins("subtitle", plugin).items():
-			plugin_name = plugin_class.lower()
-			if not plugin_name in episode.__dict__: return None, Code.notFound
-			url = episode.__dict__[plugin_name]
-			id = str(uuid.uuid4())
-			working_dir = Subtitle._getPath() + "/" + id
-			if not os.path.exists(working_dir): os.makedirs(working_dir)
-			try:
-				response = requests.get(url)
-				if response.status_code != 200: return None, Subtitle.connectionError
-				if "content-disposition" in response.headers: download_path =  working_dir + "/" + response.headers['content-disposition']
-				elif "rar" in response.headers['Content-Type']: download_path = working_dir + "/" + id + ".rar"
-				elif "zip" in response.headers['Content-Type']: download_path = working_dir + "/" + id + ".zip"
-				else: download_path = working_dir + "/" + id + ".srt"
-				
-				with open(download_path, 'wb') as download_file: download_file.write(response.content)
-				response.close()
-				download_file.close()
-			except:
-				shutil.rmtree(working_dir)
-				return None, Subtitle.connectionError
+	def download(url, serie, episode):
+		id = str(uuid.uuid4())
+		working_dir = Subtitle._getPath() + "/" + id
+		if not os.path.exists(working_dir): os.makedirs(working_dir)
+		try:
+			response = requests.get(url)
+			if response.status_code != 200: return None, Subtitle.connectionError
+			if "content-disposition" in response.headers: download_path =  working_dir + "/" + response.headers['content-disposition']
+			elif "rar" in response.headers['Content-Type']: download_path = working_dir + "/" + id + ".rar"
+			elif "zip" in response.headers['Content-Type']: download_path = working_dir + "/" + id + ".zip"
+			else: download_path = working_dir + "/" + id + ".srt"
 			
-			subtitle_file = Subtitle.subtitles_path + "/" + serie.capitalize() + " S" + str(episode.season).zfill(2) + "E" + str(episode.episode).zfill(2)
-			success = Utils.unpack(download_path, subtitle_file, working_dir)
+			with open(download_path, 'wb') as download_file: download_file.write(response.content)
+			response.close()
+			download_file.close()
+		except:
 			shutil.rmtree(working_dir)
+			return None, Subtitle.connectionError
+		
+		#subtitle_file = Subtitle.subtitles_path + "/" + serie.name.capitalize() + " S" + str(episode.season).zfill(2) + "E" + str(episode.episode).zfill(2)
+		subtitle_file, success = Utils.unpack(download_path, working_dir, Subtitle._getPath())
+		shutil.rmtree(working_dir)
 
-			if success: return subtitle_file, Code.found
-			else: return None, Code.notUnpack
+		if success: return subtitle_file, Code.found
+		else: return None, Code.notUnpack
 
 	@staticmethod
 	def searchUrl(name, episode, plugin_module, plugin_class):

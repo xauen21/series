@@ -23,7 +23,7 @@ class Torrent:
 				else: names = serie.names
 				for name in names:
 					link, code = Torrent.searchUrl(name, episode, plugin_module, plugin_class)
-					Log.info(serie = name, season = episode.season, episode = episode.episode, plugin = plugin_class, code = code, message = "Searching torrent.")
+					Log.info(serie = name, season = episode.season, episode = episode.episode, plugin = plugin_class, code = code, message = "Searching torrent")
 					if not link: continue
 					
 					episode.torrent = True
@@ -46,3 +46,7 @@ class Torrent:
 		plugin_module = importlib.import_module(plugin_module)
 		plugin_class = getattr(plugin_module, plugin_class)
 		return plugin_class.searchCandidates(serie, episode)
+
+	@staticmethod
+	def download(url, serie, episode):
+		return None, Code.notFound
