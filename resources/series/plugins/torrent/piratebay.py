@@ -12,7 +12,8 @@ class Piratebay:
 	@staticmethod
 	def searchUrl(name, episode):
 		parameters = (('q', name + " s" + str(episode.season).zfill(2) + "e" + str(episode.episode).zfill(2)), ('orderby', 99))
-		return Utils.getFirstLink(url = Piratebay.url, parameters = parameters, pattern = "magnet")
+		pattern =  "dn=" + name.replace(" ", "[\+\. _-]+") + "[\+\. _-]+s" + str(episode.season).zfill(2) + "e" + str(episode.episode).zfill(2)
+		return Utils.getFirstLink(url = Piratebay.url, parameters = parameters, pattern = pattern)
 
 	@staticmethod
 	def searchCandidates(name, episode):
@@ -22,7 +23,7 @@ class Piratebay:
 
 		# SEARCH EPISODES
 		content, code = Utils.getContent(url = Piratebay.url, parameters = parameters)
-		links, code = Utils.getLinks(content = content, pattern = "magnet")
+		links, code = Utils.getLinks(content = content, pattern = "magnet", strict= True)
 		if code != Code.found: return None, code
 		
 		details, code = Utils.getLinks(content = content, pattern = "/torrent/")

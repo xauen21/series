@@ -47,8 +47,8 @@ class Utils:
 			if not content: 
 				content, code = Utils.getContent(url, parameters)
 				if not code == Code.connectionSuccess: return None, code
-			links = re.findall('<a [^>]*' + pattern + '[^>]*>', content)
-			links = [(lambda link: link)(re.sub('<a [^>]*href="([^>"]*' + pattern + '[^>"]*)"[^>]*>', "\\1", link)) for link in links]
+			links = re.findall('<a [^>]*' + pattern + '[^>]*>', content, re.IGNORECASE)
+			links = [(lambda link: link)(re.sub('<a [^>]*href="([^>"]*' + pattern + '[^>"]*)"[^>]*>', "\\1", link, flags=re.IGNORECASE)) for link in links]
 			if links and len(links): 
 				if url: message = "Links found in " + url + " with pattern " + pattern
 				else: message = "Links found with pattern " + pattern
@@ -97,7 +97,7 @@ class Utils:
 		except:
 			try:
 				import patoolib
-				os.environ["PATH"] += os.pathsep + Utils.getResourcesDir() + "/7z/App/7-Zip"
+				os.environ["PATH"] += os.pathsep + Utils.getResourcesDir() + "/lib/7z/App/7-Zip"
 				patoolib.extract_archive(input, outdir = working_dir, verbosity = -1)
 			except:
 				pass

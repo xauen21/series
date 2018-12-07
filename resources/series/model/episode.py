@@ -1,5 +1,5 @@
 import json
-from resources.lib.jsonpickle import jsonpickle
+from resources.lib import jsonpickle
 from resources.series.common.code import Code
 
 class Episode:

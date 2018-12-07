@@ -1,6 +1,6 @@
 import os, importlib
 
-from resources.lib.jsonpickle import jsonpickle
+from resources.lib import jsonpickle
 from resources.series.model.episode import Episode
 from resources.series.common.utils import Utils
 from resources.series.common.log import Log

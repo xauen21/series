@@ -3,11 +3,13 @@ import os
 import requests
 import uuid
 import shutil
+import transmissionrpc
 
 from resources.series.model.serie import Serie
 from resources.series.common.utils import Utils
 from resources.series.common.log import Log
 from resources.series.common.code import Code
+from resources.series.common.settings import Settings
 
 class Torrent:
 	@staticmethod
@@ -19,7 +21,10 @@ class Torrent:
 		for episode in serie.episodes:
 			if episode.torrent: continue
 			for plugin_module, plugin_class in Utils.getPlugins("torrent").items():
-				if plugin_class in serie.__dict__: names = [serie.__dict__[plugin_class]]
+				if plugin_class in serie.__dict__: 
+					names = list(serie.names)
+					names.remove(serie.__dict__[plugin_class])
+					names.insert(0, serie.__dict__[plugin_class])
 				else: names = serie.names
 				for name in names:
 					link, code = Torrent.searchUrl(name, episode, plugin_module, plugin_class)
@@ -49,4 +54,9 @@ class Torrent:
 
 	@staticmethod
 	def download(url, serie, episode):
+		params = Settings().get_transmission_params()
+		transmissionClient = transmissionrpc.Client(**params)
+		torrentInfo = transmissionClient.add_torrent(url)
+		print(torrentInfo.__dict__)
+		print(torrentInfo.files)
 		return None, Code.notFound

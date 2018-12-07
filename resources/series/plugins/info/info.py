@@ -19,9 +19,12 @@ class Info:
 		elif not season: season = 1
 		
 		for plugin_module, plugin_class in Utils.getPlugins("info").items():
-			plugin_name = plugin_class.lower()
-			
 			if plugin_class in serie.__dict__: names = [serie.__dict__[plugin_class]]
+			else: names = serie.names
+			if plugin_class in serie.__dict__: 
+				names = list(serie.names)
+				names.remove(serie.__dict__[plugin_class])
+				names.insert(0, serie.__dict__[plugin_class])
 			else: names = serie.names
 			
 			for name in names:

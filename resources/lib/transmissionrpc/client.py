@@ -137,8 +137,8 @@ class Client(object):
             self._query_timeout = float(timeout)
         else:
             self._query_timeout = DEFAULT_TIMEOUT
-        urlo = urlparse(address)
-        if urlo.scheme == '':
+        urlo = None #urlparse(address)
+        if urlo == None:
             base_url = 'http://' + address + ':' + str(port)
             self.url = base_url + '/transmission/rpc'
         else:

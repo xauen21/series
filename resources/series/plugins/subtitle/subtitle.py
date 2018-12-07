@@ -19,7 +19,10 @@ class Subtitle:
 		for episode in serie.episodes:
 			if episode.subtitle: continue
 			for plugin_module, plugin_class in Utils.getPlugins("subtitle").items():
-				if plugin_class in serie.__dict__: names = [serie.__dict__[plugin_class]]
+				if plugin_class in serie.__dict__: 
+					names = list(serie.names)
+					names.remove(serie.__dict__[plugin_class])
+					names.insert(0, serie.__dict__[plugin_class])
 				else: names = serie.names
 				for name in names:
 					link, code = Subtitle.searchUrl(name, episode, plugin_module, plugin_class)
@@ -52,7 +55,7 @@ class Subtitle:
 			download_file.close()
 		except:
 			shutil.rmtree(working_dir)
-			return None, Subtitle.connectionError
+			return None, Code.connectionError
 		
 		#subtitle_file = Subtitle.subtitles_path + "/" + serie.name.capitalize() + " S" + str(episode.season).zfill(2) + "E" + str(episode.episode).zfill(2)
 		subtitle_file, success = Utils.unpack(download_path, working_dir, Subtitle._getPath())

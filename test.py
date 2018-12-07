@@ -13,6 +13,12 @@ if __name__ == '__main__':
 	#	Info.updateSerie(serie)
 	#	Torrent.updateSerie(serie)
 	#	Subtitle.updateSerie(serie)
-
 	humans = Serie("Humans")
-	Download.download(humans, humans.episodes[0])
+	Info.updateSerie(humans)
+	Torrent.updateSerie(humans)
+	
+	daredevil = Serie("Daredevil")
+	Info.updateSerie(daredevil)
+	Torrent.updateSerie(daredevil)
+
+	#Download.download(daredevil, daredevil.episodes[0])
