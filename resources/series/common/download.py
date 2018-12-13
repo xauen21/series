@@ -25,13 +25,16 @@ class Download:
 		
 		subtitle_link, torrent_link = Download.findSubTorrentLinks(serie, episode)
 
-		subtitle_file, code = Subtitle.download(subtitle_link, serie, episode)
-		if code == Code.found:
-			serie.updateEpisode(episode, subtitle = subtitle_file)
-			Log.info(serie = serie.id, season = episode.season, episode = episode.episode, code = code, message = "Downloading subtitle " + os.path.basename(subtitle_file))
-		else:
-			Log.error(serie = serie.id, season = episode.season, episode = episode.episode, code = code, message = "Downloading subtitle " + subtitle_link)
+		if not os.path.isfile(episode.subtitle):
+			subtitle_file, code = Subtitle.download(subtitle_link, serie, episode)
+			if code == Code.found:
+				serie.updateEpisode(episode, subtitle = subtitle_file)
+				Log.info(serie = serie.id, season = episode.season, episode = episode.episode, code = code, message = "Downloading subtitle " + os.path.basename(subtitle_file))
+			else:
+				Log.error(serie = serie.id, season = episode.season, episode = episode.episode, code = code, message = "Downloading subtitle " + subtitle_link)
 
+		if not os.path.isfile(episode.torrent):
+			Torrent.get_status()
 		torrent_hash, code = Torrent.download(torrent_link, serie, episode)
 		if code == Code.found:
 			serie.updateEpisode(episode, torrent = torrent_hash)

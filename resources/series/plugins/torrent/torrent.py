@@ -68,3 +68,10 @@ class Torrent:
 			return Torrent.getClient().add_torrent(url), Code.found
 		except:
 			return None, Code.notFound
+
+	@staticmethod
+	def download(url, serie, episode):
+		try:
+			return Torrent.getClient()(url), Code.found
+		except:
+			return None, Code.notFound
