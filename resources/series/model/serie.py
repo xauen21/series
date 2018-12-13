@@ -70,6 +70,13 @@ class Serie:
 		if self.episodes: return max(self.episodes)
 		return None
 
+	def getEpisode(self, season, episode):
+		try: 
+			pos = self.episodes.index(Episode(season, episode))
+			return self.episodes[pos]
+		except:
+			return None
+
 	
 	#def getMaxEpisodeOnAir(self):
 	#	if not self.episodes: return None

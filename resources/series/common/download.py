@@ -12,22 +12,32 @@ from resources.series.plugins.torrent.torrent import Torrent
 
 class Download:
 	@staticmethod
-	def download(serie, episode):
+	def download(serie, season, episode):
+		serie = Serie(serie)
+		if not serie: 
+			Log.error(serie = serie.id, season = episode.season, episode = episode.episode, code = Code.notFound, message = "Downloading episode")
+			return Code.notFound
+
+		episode = serie.getEpisode(season, episode)
+		if not episode: 
+			Log.error(serie = serie.id, code = Code.notFound, message = "Downloading episode")
+			return Code.notFound
+		
 		subtitle_link, torrent_link = Download.findSubTorrentLinks(serie, episode)
 
 		subtitle_file, code = Subtitle.download(subtitle_link, serie, episode)
 		if code == Code.found:
 			serie.updateEpisode(episode, subtitle = subtitle_file)
-			Log.info(serie = serie.id, season = episode.season, episode = episode.episode, code = code, message = "Downloading " + os.path.basename(subtitle_file))
+			Log.info(serie = serie.id, season = episode.season, episode = episode.episode, code = code, message = "Downloading subtitle " + os.path.basename(subtitle_file))
 		else:
-			Log.error(serie = serie.id, season = episode.season, episode = episode.episode, code = code, message = "Downloading " + subtitle_link)
+			Log.error(serie = serie.id, season = episode.season, episode = episode.episode, code = code, message = "Downloading subtitle " + subtitle_link)
 
-		torrent_file, code = Torrent.download(torrent_link, serie, episode)
+		torrent_hash, code = Torrent.download(torrent_link, serie, episode)
 		if code == Code.found:
-			serie.updateEpisode(torrent = torrent_file)
-			Log.info(serie = serie.id, season = episode.season, episode = episode.episode, code = code, message = "Downloading " + os.path.basename(torrent_file))
+			serie.updateEpisode(episode, torrent = torrent_hash)
+			Log.info(serie = serie.id, season = episode.season, episode = episode.episode, code = code, message = "Downloading torrent " + torrent_hash)
 		else:
-			Log.error(serie = serie.id, season = episode.season, episode = episode.episode, code = code, message = "Downloading " + torrent_link)
+			Log.error(serie = serie.id, season = episode.season, episode = episode.episode, code = code, message = "Downloading torrent " + torrent_link)
 
 	@staticmethod
 	def findSubTorrentLinks(serie, episode):

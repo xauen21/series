@@ -14,7 +14,7 @@ class TestSubtitles(unittest.TestCase):
 			return "http://subdivx.com/subtitle?name:" + name + "&episode:" + str(episode.season) + "x" + str(episode.episode), Code.found
 		if (name == "name in subdivx" and episode == Episode(1, 2)):
 			return None, Code.notFound
-		else: return None, Code.connectionError
+		else: return None, Code.notFound
 	
 	@staticmethod
 	def _getSeriesPath():

@@ -12,6 +12,8 @@ from resources.series.common.code import Code
 from resources.series.common.settings import Settings
 
 class Torrent:
+	transmissionClient = None
+
 	@staticmethod
 	def _getPath():
 		return Utils.getDataDir() + "/torrents"
@@ -53,10 +55,16 @@ class Torrent:
 		return plugin_class.searchCandidates(serie, episode)
 
 	@staticmethod
+	def getClient():
+		if Torrent.transmissionClient == None:
+			params = Settings().get_transmission_params()
+			Torrent.transmissionClient = transmissionrpc.Client(**params)
+		return Torrent.transmissionClient
+
+
+	@staticmethod
 	def download(url, serie, episode):
-		params = Settings().get_transmission_params()
-		transmissionClient = transmissionrpc.Client(**params)
-		torrentInfo = transmissionClient.add_torrent(url)
-		print(torrentInfo.__dict__)
-		print(torrentInfo.files)
-		return None, Code.notFound
+		try:
+			return Torrent.getClient().add_torrent(url), Code.found
+		except:
+			return None, Code.notFound

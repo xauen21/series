@@ -5,6 +5,7 @@ from urlparse import parse_qsl
 import xbmcgui
 import xbmcplugin
 import xbmcaddon
+from resources.series.common.download import Download
 from resources.series.model.serie import Serie
 from resources.series.plugins.info.info import Info
 from resources.series.plugins.subtitle.subtitle import Subtitle
@@ -35,12 +36,11 @@ def list_episodes():
 	xbmcplugin.endOfDirectory(_handle)
 
 def download_episode(serie, season, episode):
-	return
+	Download.download(serie, season, episode)
 
 def play_video(path):
 	play_item = xbmcgui.ListItem(path=path)
 	xbmcplugin.setResolvedUrl(_handle, True, listitem=play_item)
-
 
 def router(paramstring):
 	params = dict(parse_qsl(paramstring))

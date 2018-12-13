@@ -28,4 +28,4 @@ class Subdivx:
 		details = [(lambda detail: detail)(re.sub('<div id="buscador_detalle_sub">([^<^\\\]*)[\<]*.*', "\\1", detail)) for detail in details]
 		candidates = dict(zip(links, details))
 		return candidates, Code.found
-
+		

@@ -48,7 +48,12 @@ class Utils:
 				content, code = Utils.getContent(url, parameters)
 				if not code == Code.connectionSuccess: return None, code
 			links = re.findall('<a [^>]*' + pattern + '[^>]*>', content, re.IGNORECASE)
+			#print(content)
+			#print(links)
+			#print('<a [^>]*' + pattern + '[^>]*>')
 			links = [(lambda link: link)(re.sub('<a [^>]*href="([^>"]*' + pattern + '[^>"]*)"[^>]*>', "\\1", link, flags=re.IGNORECASE)) for link in links]
+			#print(links)
+			#print('<a [^>]*href="([^>"]*' + pattern + '[^>"]*)"[^>]*>')
 			if links and len(links): 
 				if url: message = "Links found in " + url + " with pattern " + pattern
 				else: message = "Links found with pattern " + pattern
@@ -70,12 +75,11 @@ class Utils:
 	@staticmethod
 	def getContent(url, parameters, json = False):
 		try: 
-			response = requests.get(url, params = parameters)
+			response = requests.get(url, params = parameters, verify = False, timeout = 5)
 			Log.debug(code = Code.connectionSuccess, message = "Connected to " + response.url)
 			if json: return response.json(), Log.connectionSuccess
 			else: return response.text, Code.connectionSuccess
 		except Exception as ex:
-			print(ex)
 			Log.trace(code = Code.connectionError, message = url)
 			return None, Code.connectionError
 

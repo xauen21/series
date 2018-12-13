@@ -17,7 +17,7 @@ class TestInfo(unittest.TestCase):
 			return [Episode(2, 1), Episode(2, 2)], Code.found
 		if (name == "name in imdb" and season == 3):
 			return None, Code.notFound
-		else: return None, Code.connectionError
+		else: return None, Code.notFound
 	
 	@staticmethod
 	def _getPath():
